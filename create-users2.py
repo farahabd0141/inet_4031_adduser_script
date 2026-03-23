@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 
 # inet4031
@@ -12,13 +11,19 @@
 import os
 import re
 import sys
+# dry run explanation:
+# if user selects dry run (y), the script will NOT run any os.system commands
+# instead, it will print out what commands would have been executed
+# this helps test the script safely without changing the system
+# if user selects n, the script will actually create users, set passwords, and add groups
 
 def main():
     # ask user if they want dry run or real run
     # dry run = just show commands, real run = actually create users
-    answer = input("run in dry-run mode? y for yes, n for no: ").strip().upper()
+    tty = open("/dev/tty", "r")
+    print("run in dry-run mode? y for yes, n for no: ", end="")
+    answer = tty.readline().strip().upper()
     dry_run = answer == "Y"
-
     # loop through each line from the input file
     for line in sys.stdin:
         # check if line starts with # (means skip this line)
